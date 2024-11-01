@@ -7,15 +7,21 @@ import { RobloxAuth, CodeVerifier, State } from "@/utils/oauth";
 // Export GET Route
 export async function GET(req: Request, res: Response) {
     // Variables
-    const scopes = ["openid", "profile"];
+    const authScopes = ["openid", "profile"];
+    const generatedState = State();
+    const generatedCodeVerifier = CodeVerifier();
     let url;
+
+    // Set State and CodeVerifier Cookie
+    res.cookie("state", generatedState);
+    res.cookie("codeverifier", generatedCodeVerifier);
 
     // Attempt URL Creation
     try {
         url = RobloxAuth.createAuthorizationURL(
-            State(),
-            CodeVerifier(),
-            scopes
+            generatedState,
+            generatedCodeVerifier,
+            authScopes
         );
     } catch (e) {
         return res.status(500).json({

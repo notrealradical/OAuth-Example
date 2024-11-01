@@ -4,7 +4,7 @@ import type { Request, Response } from "express";
 // Dependencies
 import env from "@/utils/env";
 import jwt from "jsonwebtoken";
-import { DiscordAuth, State } from "@/utils/oauth";
+import { DiscordAuth } from "@/utils/oauth";
 
 // Export GET Route
 export async function GET(req: Request, res: Response) {
@@ -79,13 +79,9 @@ export async function GET(req: Request, res: Response) {
         env.JWT_SECRET as string
     );
 
-    res.cookie("authtoken", token, {
-        domain: "www.qvgk.org",
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict",
-    });
-
     // Return Response
-    return res.redirect("https://www.qvgk.org");
+    return res.json({
+        success: true,
+        jwt: token,
+    });
 }
