@@ -3,8 +3,8 @@ import env from "@/utils/env";
 import { Discord, Roblox, generateState, generateCodeVerifier } from "arctic";
 
 // Generators
-export const State = generateState();
-export const CodeVerifier = generateCodeVerifier();
+export const State = generateState;
+export const CodeVerifier = generateCodeVerifier;
 
 // Discord OAuth
 export const DiscordAuth = new Discord(

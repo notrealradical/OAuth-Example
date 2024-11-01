@@ -1,12 +1,14 @@
 // Dependencies
 import env from "@/utils/env";
 import express from "express";
-import createRouter, { router } from "express-file-routing";
+import cookieParser from "cookie-parser";
+import createRouter from "express-file-routing";
 import path from "path";
 import c from "chalk";
 
 // Application
 const app = express();
+app.use(cookieParser());
 await createRouter(app, {
     directory: path.join(__dirname, "routes"),
 });

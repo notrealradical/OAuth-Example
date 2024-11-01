@@ -10,6 +10,7 @@ import { DiscordAuth, State } from "@/utils/oauth";
 export async function GET(req: Request, res: Response) {
     // Query Parameters
     const { code, state: returnedState } = req.query;
+    const storedState = req.cookies.state;
 
     // Validate Query Params
     if (!code || !returnedState) {
@@ -20,12 +21,15 @@ export async function GET(req: Request, res: Response) {
     }
 
     // Verify State Match
-    if (returnedState !== State) {
+    if (returnedState !== storedState) {
         return res.status(400).json({
             success: false,
             error: "Invalid state parameter.",
         });
     }
+
+    // Remove State Cookie
+    res.cookie("state", null);
 
     // Variables
     let userDetails;
